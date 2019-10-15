@@ -28,8 +28,9 @@ CREATE TABLE tickets (
   seller_id INTEGER NOT NULL,
   section TEXT,
   seat_row TEXT,
-  qty INt8 NOT NULL,
+  qty INTEGER NOT NULL,
   price_each NUMERIC,
+  updated_at DATETIME NOT NULL,
   FOREIGN KEY(event_id) REFERENCES events(id),
   FOREIGN KEY(seller_id) REFERENCES sellers(id)
 );

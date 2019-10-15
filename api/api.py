@@ -21,7 +21,6 @@ best_purch_model = BestPurchaseModel(db)
 app = flask.Flask(__name__)
 
 # TODO depending on business needs, we'll want to reformat db output here
-# TODO return values on put methods
 
 @app.route('/events/<event_id>/tickets', methods=['GET'])
 def get_event_tickets(event_id):
@@ -31,13 +30,17 @@ def get_event_tickets(event_id):
 def post_ticket():
     # TODO indiscriminately throwing data into the db from http is bad.
     # We should be sanitizing and processing here
+    # TODO should return page for newly created ticket
     db.put_ticket(**flask.request.get_json())
+    return ('', 201)
 
 @app.route('/tickets/<ticket_id>/purchase', methods=['PUT'])
 def put_ticket_purchase(ticket_id):
+    # TODO should return altered ticket
     data = flask.request.get_json()
     # TODO make sure that required data is present
-    db.purchase_ticket(data['customer_id'], data['ticket_id'], data['qty'])
+    db.purchase_ticket(data['customer_id'], ticket_id, data['qty'])
+    return ('', 201)
 
 @app.route('/events/<event_id>/tickets/best', methods=['GET'])
 def get_event_tickets_best(event_id):

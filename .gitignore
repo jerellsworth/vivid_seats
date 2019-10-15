@@ -1,6 +1,7 @@
 # project-specific
 conf.yml
 tickets.db
+*.swp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
