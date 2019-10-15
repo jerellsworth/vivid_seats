@@ -1,5 +1,17 @@
 # vivid_seats
 
+## Setup
+
+* Build and enter a python3 virtual environment
+* `pip install -r requirements.txt`
+* `python utils.py init`
+
+## Running
+
+* `python utils.py webserver`
+* In another terminal session, enter the virtual environment and run
+  `python utils.py tests` for a minimal test suite
+
 ## Model
 
 ### web_site_events
