@@ -31,11 +31,16 @@ def webserver():
 def tests():
     # TODO build a proper test with unittests
     host = 'http://localhost:5000'
+
     click.echo('get tickets for event 1')
     resp = requests.get('{}/events/1/tickets'.format(host))
     click.echo(resp.text)
     click.echo('get tickets for event 2')
     resp = requests.get('{}/events/2/tickets'.format(host))
+    click.echo(resp.text)
+
+    click.echo('get best ticket for event 1')
+    resp = requests.get('{}/events/1/tickets/best'.format(host))
     click.echo(resp.text)
 
 if __name__ == '__main__':
