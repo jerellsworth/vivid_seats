@@ -3,25 +3,25 @@
 ## Model
 
 ### web_site_events
-* ws_event_id
+* id
 * ws_event_type (search, purchase, etc.)
-* referral_id
+* referrer_id
 * purchase_id (null if not a purchase event)
 * customer_id
 * created_at
 
 ### purchases
 
-* purchase_id
+* id
 * customer_id
 * ticket_id
-* seller_id
 * qty
 
 ### tickets
 
-* ticket_id
+* id
 * event_id
+* seller_id
 * section
 * row
 * qty
@@ -29,14 +29,14 @@
 A ticket here actually represents some number of tickets in the same row.
 Consequently, more than one purchase can map to the same ticket
 
-### referrals
+### referrers
 
-* referral_id
-* referral_name
+* id
+* referrer_name
 
 ### events
 
-* event_id
+* id
 * event_name
 * venue_id
 * start_dt
@@ -44,16 +44,16 @@ Consequently, more than one purchase can map to the same ticket
 
 ### venues
 
-* venue_id
+* id
 * venue_address
 
 ### sellers
 
-* seller_id
+* id
 * seller_name
 
 ### customers
 
-* customer_id
+* id
 * customer_email
 * customer_address
