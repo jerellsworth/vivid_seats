@@ -5,14 +5,19 @@ import sqlite3
 class TicketsDB():
     # TODO this should use a real orm. Faking it for now
     def __init__(self, db_path):
-        self.conn = sqlite3.connect(db_path)
+        self.db_path = db_path
 
-    def get_tickets(event_id):
+    def _get_conn(self):
+        # we have to make a new conn for every request due to sqlite3 
+        # allergy to multithreading
+        return sqlite3.connect(self.db_path)
+
+    def get_tickets(self, event_id):
         # TODO don't return sold tickets
         sql = ('SELECT id, section, seat_row, qty, price_each '
                'FROM tickets '
                'WHERE event_id = ?')
-        curs = conn.cursor()
+        curs = self._get_conn().cursor()
         curs.execute(sql, event_id)
         ret = []
         for r in curs:
@@ -24,17 +29,18 @@ class TicketsDB():
         curs.close()
         return ret
 
-    def put_ticket(**kwargs):
+    def put_ticket(self, **kwargs):
         # TODO reconcile model with arguments
         cols = list(kwargs.keys()) + ['updated_at']
         vals = list(kwargs.values()) + [dt.datetime.now().isoformat()]
         sql = 'INSERT INTO tickets ({}) VALUES ({})'.format(
                 ', '.join(('"{}"'.format(c) for c in cols)),
                 ', '.join('?' * len(cols)))
-        with self.conn:
-            self.conn.execute(sql, vals)
+        conn = self._get_conn()
+        with conn:
+            conn.execute(sql, vals)
 
-    def purchase_ticket(customer_id, ticket_id, qty):
+    def purchase_ticket(self, customer_id, ticket_id, qty):
         sql_io = io.StringIO()
         sql_io.write('BEGIN\n\n')
         sql_io.write('INSERT INTO purchases (\n')
@@ -47,7 +53,8 @@ class TicketsDB():
         sql_io.write('FROM purchases;\n')
         sql_io.write('COMMIT;\n')
         ts = dt.datetime.now().isoformat()
-        with self.conn:
-            self.conn.execute(
+        conn = self._get_conn()
+        with conn:
+            conn.execute(
                 sql_io.getvalue(),
                 (customer_id, ticket_id, qty, ts, customer_id, ts))

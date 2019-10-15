@@ -25,7 +25,7 @@ app = flask.Flask(__name__)
 
 @app.route('/events/<event_id>/tickets', methods=['GET'])
 def get_event_tickets(event_id):
-    return db.get_tickets(event_id)
+    return flask.jsonify(db.get_tickets(event_id))
 
 @app.route('/tickets', methods=['POST'])
 def post_ticket():

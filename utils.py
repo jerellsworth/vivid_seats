@@ -4,6 +4,7 @@ import os
 import shutil
 
 import click
+import requests
 import yaml
 
 REPO_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -25,6 +26,17 @@ def init():
 def webserver():
     from api.api import app
     app.run()
+
+@cli.command()
+def tests():
+    # TODO build a proper test with unittests
+    host = 'http://localhost:5000'
+    click.echo('get tickets for event 1')
+    resp = requests.get('{}/events/1/tickets'.format(host))
+    click.echo(resp.text)
+    click.echo('get tickets for event 2')
+    resp = requests.get('{}/events/2/tickets'.format(host))
+    click.echo(resp.text)
 
 if __name__ == '__main__':
     cli()
