@@ -1,5 +1,3 @@
-PRAGMA foreign_keys = ON;
-
 CREATE TABLE web_site_events (
   id INT8 PRIMARY KEY AUTOINCREMENT,
   ws_event_type TEXT NOT NULL,
@@ -7,9 +5,9 @@ CREATE TABLE web_site_events (
   purchase_id INT8,
   customer_id INT8,
   created_at DATETIME NOT NULL,
-  FOREIGN KEY(referrer_id) REFERENCES referrer(id),
+  FOREIGN KEY(referrer_id) REFERENCES referrers(id),
   FOREIGN KEY(purchase_id) REFERENCES purchases(id),
-  FOREIGN KEY(customer_id) REFERENCES customer(id)
+  FOREIGN KEY(customer_id) REFERENCES customers(id)
 );
 
 CREATE TABLE purchases (
@@ -18,8 +16,8 @@ CREATE TABLE purchases (
   ticket_id INT8 NOT NULL,
   qty INTEGER NOT NULL,
   updated_at DATETIME NOT NULL,
-  FOREIGN KEY(customer_id) REFERENCES customer(id),
-  FOREIGN KEY(ticket_id) REFERENCES ticket(id)
+  FOREIGN KEY(customer_id) REFERENCES customers(id),
+  FOREIGN KEY(ticket_id) REFERENCES tickets(id)
 );
 
 CREATE TABLE tickets (
@@ -27,10 +25,10 @@ CREATE TABLE tickets (
   event_id INT8 NOT NULL,
   seller_id INT8 NOT NULL,
   section TEXT,
-  row TEXT,
+  seat_row TEXT,
   qty INt8 NOT NULL,
-  FOREIGN KEY(event_id) REFERENCES event(id),
-  FOREIGN KEY(seller_id) REFERENCES seller(id)
+  FOREIGN KEY(event_id) REFERENCES events(id),
+  FOREIGN KEY(seller_id) REFERENCES sellers(id)
 );
 
 CREATE TABLE referrers (
