@@ -3,12 +3,15 @@ import os
 import flask
 import yaml
 
+from .db import TicketsDB
+from .intelligence import BestPurchaseModel
+
 # TODO put this init code in a class rather than dumping it in global namespace
 # Flask is notoriously resistant to OO style
 
 LIB_PATH = os.path.dirname(os.path.realpath(__file__))
 REPO_PATH = os.path.join(LIB_PATH, '..')
-CONF_PATH = os.path.join(LIB, 'conf.yml')
+CONF_PATH = os.path.join(REPO_PATH, 'conf.yml')
 
 with open(CONF_PATH) as f_conf:
     conf = yaml.safe_load(f_conf)
@@ -24,7 +27,7 @@ app = flask.Flask(__name__)
 def get_event_tickets(event_id):
     return db.get_tickets(event_id)
 
-@app.route('/tickets', methods=['POST']):
+@app.route('/tickets', methods=['POST'])
 def post_ticket():
     # TODO indiscriminately throwing data into the db from http is bad.
     # We should be sanitizing and processing here

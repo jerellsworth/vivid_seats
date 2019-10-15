@@ -29,7 +29,7 @@ class TicketsDB():
         cols = list(kwargs.keys()) + ['updated_at']
         vals = list(kwargs.values()) + [dt.datetime.now().isoformat()]
         sql = 'INSERT INTO tickets ({}) VALUES ({})'.format(
-                ', '.join(('"{}"'.format(c) for c in cols)]),
+                ', '.join(('"{}"'.format(c) for c in cols)),
                 ', '.join('?' * len(cols)))
         with self.conn:
             self.conn.execute(sql, vals)
@@ -37,7 +37,7 @@ class TicketsDB():
     def purchase_ticket(customer_id, ticket_id, qty):
         sql_io = io.StringIO()
         sql_io.write('BEGIN\n\n')
-        sql_io.write('INSERT INTO purchases (\n'
+        sql_io.write('INSERT INTO purchases (\n')
         sql_io.write('  customer_id, ticket_id, qty, updated_at)\n')
         sql_io.write('VALUES (?, ?, ?, ?);\n\n')
         sql_io.write('INSERT INTO web_site_events (\n')
