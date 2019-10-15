@@ -1,9 +1,11 @@
+PRAGMA foreign_keys = ON;
+
 CREATE TABLE web_site_events (
-  id INT8 PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   ws_event_type TEXT NOT NULL,
-  referrer_id INT8,
-  purchase_id INT8,
-  customer_id INT8,
+  referrer_id INTEGER,
+  purchase_id INTEGER,
+  customer_id INTEGER,
   created_at DATETIME NOT NULL,
   FOREIGN KEY(referrer_id) REFERENCES referrers(id),
   FOREIGN KEY(purchase_id) REFERENCES purchases(id),
@@ -11,9 +13,9 @@ CREATE TABLE web_site_events (
 );
 
 CREATE TABLE purchases (
-  id INT8 PRIMARY KEY AUTOINCREMENT,
-  customer_id INT8 NOT NULL,
-  ticket_id INT8 NOT NULL,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  customer_id INTEGER NOT NULL,
+  ticket_id INTEGER NOT NULL,
   qty INTEGER NOT NULL,
   updated_at DATETIME NOT NULL,
   FOREIGN KEY(customer_id) REFERENCES customers(id),
@@ -21,24 +23,25 @@ CREATE TABLE purchases (
 );
 
 CREATE TABLE tickets (
-  id INT8 PRIMARY KEY AUTOINCREMENT,
-  event_id INT8 NOT NULL,
-  seller_id INT8 NOT NULL,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  event_id INTEGER NOT NULL,
+  seller_id INTEGER NOT NULL,
   section TEXT,
   seat_row TEXT,
   qty INt8 NOT NULL,
+  price_each NUMERIC,
   FOREIGN KEY(event_id) REFERENCES events(id),
   FOREIGN KEY(seller_id) REFERENCES sellers(id)
 );
 
 CREATE TABLE referrers (
-  id INT8 PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   referrer_name TEXT
 );
 
-CREATE TABLE EVENTS (
-  id INT8 PRIMARY KEY AUTOINCREMENT,
-  venue_id INT8,
+CREATE TABLE events (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  venue_id INTEGER,
   event_name TEXT,
   start_dt DATETIME,
   end_dt DATETIME,
@@ -46,17 +49,18 @@ CREATE TABLE EVENTS (
 );
 
 CREATE TABLE venues (
-  id INT8 PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
   address TEXT
 );
 
 CREATE TABLE sellers (
-  id INT8 PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT
 );
 
 CREATE TABLE customers (
-  id INT8 PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   email TEXT,
   mailing_address TEXT
 );
